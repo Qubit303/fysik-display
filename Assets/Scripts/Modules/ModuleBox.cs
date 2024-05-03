@@ -25,17 +25,21 @@ namespace Module.Neighbors
 
 public class ModuleBox : MonoBehaviour
 {
-    [field: SerializeField] public int Number { get; private set; }
-    [field: SerializeField] public Lane ModuleLane { get; private set; }
+    [field: SerializeField] public int Number { get; private protected set; }
+    [field: SerializeField] public Lane ModuleLane { get; private protected set; }
     public Dictionary<NeighborDir, ModuleBox> Neighbors { get; private set; } = new();
     public BaseModule PlacedModule { get; set; } = null;
     public bool ReceivedUpdate { get; set; } = false;
+
     public float Voltage { get; set; } = 0;
     public float Resistance { get; set; } = 0;
+    public float Amperage { get; set; } = 0;
+    public float Charge { get; set; } = 0;
+    public float Power { get; set; } = 0;
 
-    private ModuleManager _moduleManager;
+    private protected ModuleManager _moduleManager;
 
-    void Start()
+    private protected virtual void Start()
     {
         _moduleManager = ModuleManager.Instance;
         if (ModuleLane != Lane.Beginning) FindNeighbors();
@@ -46,22 +50,22 @@ public class ModuleBox : MonoBehaviour
         if (PlacedModule != null)
         {
             PlacedModule.UpdateModule();
-            return;
         }
 
+        TransferPower();
+    }
+
+    public virtual void TransferPower()
+    {
         try
         {
             Neighbors[NeighborDir.Right].Voltage = Voltage;
+            Neighbors[NeighborDir.Right].UpdateModule();
         }
-        catch (KeyNotFoundException e)
+        catch
         {
-            Debug.LogError("Module update failed! No module found! " + e.Message);
+            Debug.LogError("Module update failed! End of circuit reached!");
         }
-    }
-
-    public void TransferPower()
-    {
-
     }
 
     public void PlaceModule(BaseModule module)
@@ -90,7 +94,7 @@ public class ModuleBox : MonoBehaviour
         GetComponent<SpriteRenderer>().color = color;
     }
 
-    private void FindNeighbors()
+    private protected virtual void FindNeighbors()
     {
         try
         {

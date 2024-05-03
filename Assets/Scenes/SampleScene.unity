@@ -155,9 +155,7 @@ MonoBehaviour:
   _moduleObjects:
   - {fileID: 11400000, guid: 45fdb4c8bee506842aeafbccd66e3d85, type: 2}
   - {fileID: 11400000, guid: f026d2d259da48047bb18738aee17e72, type: 2}
-  - {fileID: 11400000, guid: 944d92196cc5ad34f9ad5390f1da76d3, type: 2}
-  - {fileID: 11400000, guid: d6a76295fd83daa49bc34aec688ec7a9, type: 2}
-  - {fileID: 11400000, guid: 383161200bdd2aa4e8cd931bc6228278, type: 2}
+  - {fileID: 11400000, guid: 6c086e086dd77304e9567fba8a295b84, type: 2}
   _colorData: {fileID: 11400000, guid: 4ec25c3638c32b1498b368b619f5f382, type: 2}
   _insertBatteryText: {fileID: 1457157156}
 --- !u!4 &58695039
@@ -3045,9 +3043,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1879345856}
   - component: {fileID: 1879345857}
-  - component: {fileID: 1879345858}
   - component: {fileID: 1879345860}
   - component: {fileID: 1879345859}
+  - component: {fileID: 1879345861}
   m_Layer: 0
   m_Name: Module 0
   m_TagString: Module
@@ -3122,20 +3120,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1879345858
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1879345855}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fa09850d492f0a746b65d5b96127cdc7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <Number>k__BackingField: 0
-  <ModuleLane>k__BackingField: 2
 --- !u!114 &1879345859
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3193,6 +3177,20 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &1879345861
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1879345855}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90ad7d9a5d3c69146b8ed957893f7a4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <Number>k__BackingField: 0
+  <ModuleLane>k__BackingField: 2
 --- !u!1 &2040867053
 GameObject:
   m_ObjectHideFlags: 0
