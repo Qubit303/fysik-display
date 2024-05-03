@@ -4,6 +4,7 @@ using UnityEngine;
 using Module.Neighbors;
 using System;
 using System.Linq;
+using Module.Formulas;
 
 namespace Module.Neighbors
 {
@@ -30,11 +31,11 @@ public class ModuleBox : MonoBehaviour
     public Dictionary<NeighborDir, ModuleBox> Neighbors { get; private set; } = new();
     public BaseModule PlacedModule { get; set; } = null;
     public bool ReceivedUpdate { get; set; } = false;
+    private List<ModuleBox> _sendToBoxes = new List<ModuleBox>();
 
     public float Voltage { get; set; } = 0;
     public float Resistance { get; set; } = 0;
     public float Amperage { get; set; } = 0;
-    public float Charge { get; set; } = 0;
     public float Power { get; set; } = 0;
 
     private protected ModuleManager _moduleManager;
@@ -66,6 +67,8 @@ public class ModuleBox : MonoBehaviour
         {
             Debug.LogError("Module update failed! End of circuit reached!");
         }
+
+        Formulas.CalculateVoltage(Amperage, Resistance);
     }
 
     public void PlaceModule(BaseModule module)
@@ -86,6 +89,8 @@ public class ModuleBox : MonoBehaviour
         }
 
         PlacedModule = null;
+        Resistance = 0;
+
         SetColor(Color.white);
     }
 

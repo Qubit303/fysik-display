@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d527c834eb95da143bc6a084f6382462, type: 3}
   m_Name: DiodeModule
   m_EditorClassIdentifier: 
-  Resistance: 4700
+  MQTTResistance: 7000
+  Resistance: 10
   Picture: {fileID: 0}
   ModuleColor: {r: 0, g: 0.21176471, b: 0.5686275, a: 1}
-  _moduleType: 0
+  Type: 0
+  Name: 1

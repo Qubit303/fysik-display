@@ -23,6 +23,7 @@ namespace Module.Types
 
 public class BaseModule : ScriptableObject, IModule<ModuleBox>
 {
+    public int MQTTResistance;
     public int Resistance;
     public Sprite Picture;
     public Color ModuleColor;
@@ -38,6 +39,7 @@ public class BaseModule : ScriptableObject, IModule<ModuleBox>
     public void Init(ModuleBox box)
     {
         _box = box;
+        box.Resistance = this.Resistance;
         Debug.Log($"{this.GetType().Name} initialized!");
     }
 }

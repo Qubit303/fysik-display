@@ -15,6 +15,8 @@ public class ModuleManager : MonoBehaviour
     public Dictionary<int, ModuleBox> ModuleBoxes { get; private set; } = new();
     public Dictionary<ModuleBox, BaseModule> ModulesInScene { get; private set; } = new();
 
+    public List<List<ModuleBox>> ParallelCircuits { get; private set; } = new();
+
     public event Action CircuitUpdated;
 
     [SerializeField] ColorData _colorData;
@@ -38,7 +40,7 @@ public class ModuleManager : MonoBehaviour
 
         foreach (BaseModule module in _moduleObjects)
         {
-            Modules.Add(module.Resistance, module);
+            Modules.Add(module.MQTTResistance, module);
         }
 
         foreach (ModuleBox moduleBox in FindObjectsOfType<ModuleBox>())
@@ -61,7 +63,7 @@ public class ModuleManager : MonoBehaviour
                 }
             }
 
-            if (!IsBoxEmpty(pos) && IsModuleSame(closestResistance, ModuleBoxes[pos].PlacedModule.Resistance))
+            if (!IsBoxEmpty(pos) && IsModuleSame(closestResistance, ModuleBoxes[pos].PlacedModule.MQTTResistance))
             {
                 Debug.LogError("Module creation failed! Module already exists at this position!");
                 ModuleBoxes[pos].ReceivedUpdate = true;
@@ -160,6 +162,7 @@ public class ModuleManager : MonoBehaviour
             return;
         }
         firstModule.UpdateModule();
+        _insertBatteryText.gameObject.SetActive(false);
     }
 
     public void ClearCircuit()
@@ -170,5 +173,33 @@ public class ModuleManager : MonoBehaviour
     public ModuleBox GetBox(int i)
     {
         return ModuleBoxes[i];
+    }
+
+    public float GetResistance(List<List<ModuleBox>> parallelCircuit)
+    {
+        float resistance = 0;
+        foreach (List<ModuleBox> circuit in parallelCircuit)
+        {
+            foreach (ModuleBox moduleBox in circuit)
+            {
+                resistance += moduleBox.PlacedModule.Resistance;
+            }
+        }
+        return resistance;
+    }
+
+    public float GetResistance(List<ModuleBox> seriesCircuit)
+    {
+        float resistance = 0;
+        foreach (ModuleBox moduleBox in seriesCircuit)
+        {
+            resistance += moduleBox.PlacedModule.Resistance;
+        }
+        return resistance;
+    }
+
+    public float GetResistance(ModuleBox moduleBox)
+    {
+        return moduleBox.PlacedModule.Resistance;
     }
 }

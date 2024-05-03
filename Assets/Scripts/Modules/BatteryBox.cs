@@ -13,37 +13,42 @@ public class BatteryBox : ModuleBox
 
     public override void TransferPower()
     {
-        /*List<ModuleBox> transferToBoxes = new List<ModuleBox>();
-        transferToBoxes.Add(FindClosestUpperLaneBox());
-        transferToBoxes.Add(FindClosestLowerLaneBox());*/
-
-        foreach (ModuleBox box in Neighbors.Values)
+        if (CheckUpperLaneBox())
         {
-            if (box == null) continue;
-            box.Voltage = Voltage;
-            box.UpdateModule();
+            ModuleBox upperBox = Neighbors[NeighborDir.Up];
+            _moduleManager.ParallelCircuits.Add(new List<ModuleBox> { upperBox });
+            upperBox.Voltage = Voltage;
+            upperBox.UpdateModule();
+        }
+
+        if (CheckLowerLaneBox())
+        {
+            ModuleBox lowerBox = Neighbors[NeighborDir.Down];
+            _moduleManager.ParallelCircuits.Add(new List<ModuleBox> { lowerBox });
+            lowerBox.Voltage = Voltage;
+            lowerBox.UpdateModule();
         }
     }
 
-    /*private ModuleBox FindClosestUpperLaneBox()
+    private bool CheckUpperLaneBox()
     {
         for (int i = 1; i < 5; i++)
         {
             if (_moduleManager.ModuleBoxes[i].PlacedModule == null) continue;
-            return _moduleManager.ModuleBoxes[i];
+            return true;
         }
-        return null;
+        return false;
     }
 
-    private ModuleBox FindClosestLowerLaneBox()
+    private bool CheckLowerLaneBox()
     {
         for (int i = 5; i < 9; i++)
         {
             if (_moduleManager.ModuleBoxes[i].PlacedModule == null) continue;
-            return _moduleManager.ModuleBoxes[i];
+            return true;
         }
-        return null;
-    }*/
+        return false;
+    }
 
     private protected override void FindNeighbors()
     {

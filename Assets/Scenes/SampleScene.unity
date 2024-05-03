@@ -153,9 +153,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _moduleObjects:
+  - {fileID: 11400000, guid: 6c086e086dd77304e9567fba8a295b84, type: 2}
   - {fileID: 11400000, guid: 45fdb4c8bee506842aeafbccd66e3d85, type: 2}
   - {fileID: 11400000, guid: f026d2d259da48047bb18738aee17e72, type: 2}
-  - {fileID: 11400000, guid: 6c086e086dd77304e9567fba8a295b84, type: 2}
+  - {fileID: 11400000, guid: ed18c0cb8a2f03b4ca77028f1233ee1e, type: 2}
+  - {fileID: 11400000, guid: 5c21ff9bac29d23428a96707c4fb7dbd, type: 2}
+  - {fileID: 11400000, guid: 03de6e54dd8ff4f40be8ef091771ae93, type: 2}
   _colorData: {fileID: 11400000, guid: 4ec25c3638c32b1498b368b619f5f382, type: 2}
   _insertBatteryText: {fileID: 1457157156}
 --- !u!4 &58695039
