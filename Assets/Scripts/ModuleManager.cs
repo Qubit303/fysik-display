@@ -15,7 +15,8 @@ public class ModuleManager : MonoBehaviour
     public Dictionary<int, ModuleBox> ModuleBoxes { get; private set; } = new();
     public Dictionary<ModuleBox, BaseModule> ModulesInScene { get; private set; } = new();
 
-    public List<List<ModuleBox>> ParallelCircuits { get; private set; } = new();
+    public List<List<BaseModule>> FullCircuit { get; private set; } = new();
+    public Dictionary<List<BaseModule>, float> SeriesVoltage { get; private set; } = new();
 
     public event Action CircuitUpdated;
 
@@ -76,8 +77,9 @@ public class ModuleManager : MonoBehaviour
                 return;
             }
 
-            ModuleBoxes[pos].PlaceModule(Modules[closestResistance]);
-            ModulesInScene.Add(ModuleBoxes[pos], Modules[closestResistance]);
+            var placedModule = Instantiate(Modules[closestResistance]);
+            ModuleBoxes[pos].PlaceModule(placedModule);
+            ModulesInScene.Add(ModuleBoxes[pos], placedModule);
             Debug.Log($"<color=green>Module created successfully at position [<b>{pos}</b>] with resistance [<b>{closestResistance}</b>]!</color>");
         }
         catch (Exception e)
@@ -86,14 +88,14 @@ public class ModuleManager : MonoBehaviour
         }
     }
 
-    private void RemoveModule(int pos)
+    private void RemoveModule(ModuleBox box)
     {
-        Debug.Log($"Removing module at position: {pos}");
+        Debug.Log($"Removing module at position: {box}");
         try
         {
-            ModuleBoxes[pos].RemoveModule();
-            ModulesInScene.Remove(ModuleBoxes[pos]);
-            Debug.Log($"<color=red>Module removed successfully at position [<b>{pos}</b>]!</color>");
+            box.RemoveModule();
+            ModulesInScene.Remove(box);
+            Debug.Log($"<color=red>Module removed successfully at position [<b>{box}</b>]!</color>");
         }
         catch (Exception e)
         {
@@ -113,11 +115,15 @@ public class ModuleManager : MonoBehaviour
 
     private void CheckForUpdates()
     {
+        Debug.Log("Checking for updates...");
+        string moduleKeys = string.Join(", ", ModulesInScene.Keys);
+        Debug.Log($"Modules in scene: {moduleKeys}");
         foreach (ModuleBox moduleBox in ModulesInScene.Keys)
         {
+            Debug.Log(moduleBox.ReceivedUpdate);
             if (!moduleBox.ReceivedUpdate)
             {
-                moduleBox.RemoveModule();
+                RemoveModule(moduleBox);
                 continue;
             }
             moduleBox.ReceivedUpdate = false;
@@ -126,9 +132,13 @@ public class ModuleManager : MonoBehaviour
 
     public void UpdateCiruit(string[] messages)
     {
+        FullCircuit.Clear();
+        SeriesVoltage.Clear();
+
         UpdateModules(messages);
         CheckForUpdates();
         UpdatePower();
+        CheckPower();
         CircuitUpdated?.Invoke();
     }
 
@@ -146,23 +156,31 @@ public class ModuleManager : MonoBehaviour
             if (int.Parse(digits[1]) > 0)
             {
                 CreateModule(int.Parse(digits[0]), int.Parse(digits[1]));
-                continue;
             }
-            RemoveModule(int.Parse(digits[0]));
         }
     }
 
     private void UpdatePower()
     {
-        ModuleBox firstModule = ModuleBoxes[0];
-        if (firstModule.PlacedModule == null || firstModule.PlacedModule.Name != ModuleNames.Batteri)
+        if (ModuleBoxes[0].PlacedModule is BatteryModule firstModule)
         {
-            _insertBatteryText.gameObject.SetActive(true);
-            Debug.LogError("Power update failed! No battery found at the beginning of the circuit!");
+            firstModule.UpdateModule();
+            _insertBatteryText.gameObject.SetActive(false);
             return;
         }
-        firstModule.UpdateModule();
-        _insertBatteryText.gameObject.SetActive(false);
+        _insertBatteryText.gameObject.SetActive(true);
+        Debug.LogError("Power update failed! No battery found at the beginning of the circuit!");
+    }
+
+    private void CheckPower()
+    {
+        foreach (BaseModule module in ModulesInScene.Values)
+        {
+            if (module.IsPowered() == false)
+            {
+                module.NoPower();
+            }
+        }
     }
 
     public void ClearCircuit()
@@ -175,31 +193,28 @@ public class ModuleManager : MonoBehaviour
         return ModuleBoxes[i];
     }
 
-    public float GetResistance(List<List<ModuleBox>> parallelCircuit)
+    public float GetResistance(List<List<BaseModule>> parallelCircuit)
     {
         float resistance = 0;
-        foreach (List<ModuleBox> circuit in parallelCircuit)
+        foreach (List<BaseModule> circuit in parallelCircuit)
         {
-            foreach (ModuleBox moduleBox in circuit)
-            {
-                resistance += moduleBox.PlacedModule.Resistance;
-            }
+            resistance += GetResistance(circuit);
         }
         return resistance;
     }
 
-    public float GetResistance(List<ModuleBox> seriesCircuit)
+    public float GetResistance(List<BaseModule> seriesCircuit)
     {
         float resistance = 0;
-        foreach (ModuleBox moduleBox in seriesCircuit)
+        foreach (BaseModule module in seriesCircuit)
         {
-            resistance += moduleBox.PlacedModule.Resistance;
+            resistance += module.GetResistance();
         }
         return resistance;
     }
 
-    public float GetResistance(ModuleBox moduleBox)
+    public float GetResistance(BaseModule module)
     {
-        return moduleBox.PlacedModule.Resistance;
+        return module.GetResistance();
     }
 }

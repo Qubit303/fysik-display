@@ -13,6 +13,9 @@ namespace Module.Formulas
 
         public static float CalculateAmperage(float voltage, float resistance)
         {
+            if (resistance < Mathf.Pow(10, -6))
+                return 0;
+
             return voltage / resistance;
         }
 
@@ -24,6 +27,11 @@ namespace Module.Formulas
         public static float CalculatePower(float voltage, float amperage)
         {
             return voltage * amperage;
+        }
+
+        public static float CalculateLoss(float seriesVoltage, float resistance, float seriesResistance)
+        {
+            return seriesVoltage * (resistance / seriesResistance);
         }
     }
 }
