@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: 10 Resistans
   m_EditorClassIdentifier: 
   MQTTResistance: 2100
-  Picture: {fileID: 0}
-  ModuleColor: {r: 0.2679032, g: 0.5476323, b: 0.7433963, a: 1}
+  Picture: {fileID: 21300000, guid: db2a1729554253142952f275d6ef30c7, type: 3}
   Type: 0
   Name: 2
   Resistance: 10
+  ResistanceSlider: {fileID: 6767169887510041738, guid: a1d86777ad395c246bef46bb6a83a878, type: 3}

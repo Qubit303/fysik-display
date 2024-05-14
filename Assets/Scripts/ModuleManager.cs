@@ -4,6 +4,8 @@ using System;
 using System.Text.RegularExpressions;
 using Module.Types;
 using TMPro;
+using System.Linq;
+using Module.Formulas;
 
 public class ModuleManager : MonoBehaviour
 {
@@ -19,6 +21,9 @@ public class ModuleManager : MonoBehaviour
     public Dictionary<List<BaseModule>, float> SeriesVoltage { get; private set; } = new();
 
     public event Action CircuitUpdated;
+    public event Action<CircuitArgs> CircuitChanged;
+    public event Action CircuitCleared;
+    public bool CircuitIsPowered { get; private set; } = false;
 
     [SerializeField] ColorData _colorData;
 
@@ -118,7 +123,8 @@ public class ModuleManager : MonoBehaviour
         Debug.Log("Checking for updates...");
         string moduleKeys = string.Join(", ", ModulesInScene.Keys);
         Debug.Log($"Modules in scene: {moduleKeys}");
-        foreach (ModuleBox moduleBox in ModulesInScene.Keys)
+
+        foreach (ModuleBox moduleBox in ModulesInScene.Keys.ToArray())
         {
             Debug.Log(moduleBox.ReceivedUpdate);
             if (!moduleBox.ReceivedUpdate)
@@ -139,6 +145,14 @@ public class ModuleManager : MonoBehaviour
         CheckForUpdates();
         UpdatePower();
         CheckPower();
+
+        float resistance = Formulas.CalculateCircuitResistance(FullCircuit);
+        float voltage = GetCircuitVoltage();
+        float amperage = Formulas.CaluclateCircuitAmperage(FullCircuit);
+        float power = Formulas.CalculateCircuitPower(voltage, amperage);
+
+
+        CircuitChanged?.Invoke(new CircuitArgs(voltage, resistance, amperage, power));
         CircuitUpdated?.Invoke();
     }
 
@@ -165,11 +179,30 @@ public class ModuleManager : MonoBehaviour
         if (ModuleBoxes[0].PlacedModule is BatteryModule firstModule)
         {
             firstModule.UpdateModule();
+            CircuitIsPowered = true;
             _insertBatteryText.gameObject.SetActive(false);
             return;
         }
+        CircuitIsPowered = false;
         _insertBatteryText.gameObject.SetActive(true);
         Debug.LogError("Power update failed! No battery found at the beginning of the circuit!");
+    }
+
+    public void SoftUpdate()
+    {
+        FullCircuit.Clear();
+        SeriesVoltage.Clear();
+
+        UpdatePower();
+
+        float resistance = Formulas.CalculateCircuitResistance(FullCircuit);
+        float voltage = GetCircuitVoltage();
+        float amperage = Formulas.CaluclateCircuitAmperage(FullCircuit);
+        float power = Formulas.CalculateCircuitPower(voltage, amperage);
+
+
+        CircuitChanged?.Invoke(new CircuitArgs(voltage, resistance, amperage, power));
+        CircuitUpdated?.Invoke();
     }
 
     private void CheckPower()
@@ -185,7 +218,18 @@ public class ModuleManager : MonoBehaviour
 
     public void ClearCircuit()
     {
+        foreach (ModuleBox moduleBox in ModulesInScene.Keys.ToArray())
+        {
+            RemoveModule(moduleBox);
+        }
+
         ModulesInScene.Clear();
+        FullCircuit.Clear();
+        SeriesVoltage.Clear();
+
+        CircuitIsPowered = false;
+        _insertBatteryText.gameObject.SetActive(true);
+        CircuitCleared?.Invoke();
     }
 
     public ModuleBox GetBox(int i)
@@ -193,28 +237,17 @@ public class ModuleManager : MonoBehaviour
         return ModuleBoxes[i];
     }
 
-    public float GetResistance(List<List<BaseModule>> parallelCircuit)
-    {
-        float resistance = 0;
-        foreach (List<BaseModule> circuit in parallelCircuit)
-        {
-            resistance += GetResistance(circuit);
-        }
-        return resistance;
-    }
-
-    public float GetResistance(List<BaseModule> seriesCircuit)
-    {
-        float resistance = 0;
-        foreach (BaseModule module in seriesCircuit)
-        {
-            resistance += module.GetResistance();
-        }
-        return resistance;
-    }
-
     public float GetResistance(BaseModule module)
     {
         return module.GetResistance();
+    }
+
+    public float GetCircuitVoltage()
+    {
+        if (ModuleBoxes[0].PlacedModule is BatteryModule firstModule)
+        {
+            return firstModule.Voltage;
+        }
+        return 0;
     }
 }

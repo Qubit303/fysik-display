@@ -13,9 +13,8 @@ MonoBehaviour:
   m_Name: BatteryModule
   m_EditorClassIdentifier: 
   MQTTResistance: 1990
-  Picture: {fileID: 0}
-  ModuleColor: {r: 0.015468482, g: 0.6679245, b: 0, a: 1}
+  Picture: {fileID: 21300000, guid: f94f14d063957e946abf09a07c985568, type: 3}
   Type: 0
   Name: 0
-  Resistance: 5
+  Resistance: 0
   BatteryVoltage: 9

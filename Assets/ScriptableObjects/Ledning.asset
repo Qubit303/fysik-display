@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: Ledning
   m_EditorClassIdentifier: 
   MQTTResistance: 1500
-  Picture: {fileID: 0}
-  ModuleColor: {r: 0.3433962, g: 0.3433962, b: 0.3433962, a: 1}
+  Picture: {fileID: 21300000, guid: ad68b2f84061e44418c2c87b107b6e1c, type: 3}
   Type: 0
   Name: 4
   Resistance: 0

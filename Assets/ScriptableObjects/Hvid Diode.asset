@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: Hvid Diode
   m_EditorClassIdentifier: 
   MQTTResistance: 300
-  Picture: {fileID: 0}
-  ModuleColor: {r: 1, g: 1, b: 1, a: 1}
+  Picture: {fileID: 21300000, guid: 6f600c8bec8eecd4ba0aea7b2de7bcc2, type: 3}
   Type: 0
   Name: 1
   Resistance: 5
+  DiodeColor: {r: 1, g: 1, b: 1, a: 1}
+  DiodeObject: {fileID: 1106304632833046003, guid: f7ae4d3ccb1243449b174d404c082da8, type: 3}

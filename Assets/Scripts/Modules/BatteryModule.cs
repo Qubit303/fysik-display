@@ -16,15 +16,19 @@ public class BatteryModule : BaseModule, IModule<ModuleBox>
     private void TransferPower()
     {
 
-        if (GetNeighbor(NeighborDir.Up) is BaseModule upperBox)
+        if (GetNeighbor(Directions.Up) is BaseModule upperBox)
         {
             CreateLane(upperBox);
+            ActivateWire(Directions.Up);
         }
+        else RemoveWire(Directions.Up);
 
-        if (GetNeighbor(NeighborDir.Down) is BaseModule lowerBox)
+        if (GetNeighbor(Directions.Down) is BaseModule lowerBox)
         {
             CreateLane(lowerBox);
+            ActivateWire(Directions.Down);
         }
+        else RemoveWire(Directions.Down);
     }
 
     void OnValidate()
@@ -43,7 +47,7 @@ public class BatteryModule : BaseModule, IModule<ModuleBox>
         var currentBox = baseBox;
         while (true)
         {
-            currentBox = currentBox.GetNeighbor(NeighborDir.Right);
+            currentBox = currentBox.GetNeighbor(Directions.Right);
             if (currentBox != null)
             {
                 lane.Add(currentBox);

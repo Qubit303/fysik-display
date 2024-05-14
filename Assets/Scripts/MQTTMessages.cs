@@ -7,6 +7,7 @@ using Rocworks.Mqtt;
 public class MQTTMessages : MonoBehaviour
 {
     public MqttClient MqttClient;
+    public bool clearCircuit;
 
     [Header("UI")]
     [SerializeField] private TextMeshProUGUI messageText;
@@ -26,13 +27,13 @@ public class MQTTMessages : MonoBehaviour
                 ProcessMessage(msg);
             }
             messages.Clear();
-            messageTimeout = 5.0f;
+            messageTimeout = 3.0f;
         }
 
-        /*if (messageTimeout <= 0 && ModuleManager.Instance.ModulesInScene.Count > 0)
+        if (messageTimeout <= 0 && ModuleManager.Instance.ModulesInScene.Count > 0 && clearCircuit)
         {
             ModuleManager.Instance.ClearCircuit();
-        }*/
+        }
     }
 
     private void StoreMessage(string eventMsg)

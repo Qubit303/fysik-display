@@ -9,4 +9,9 @@ public class WireModule : BaseModule
     {
         Name = Module.Types.ModuleNames.Ledning;
     }
+
+    public override void Init(ModuleBox box)
+    {
+        base.Init(box);
+    }
 }
