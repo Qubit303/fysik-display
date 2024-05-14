@@ -9,12 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 077b0944dc25f7c4ba7e9b1145cfec3b, type: 3}
-  m_Name: ResistanceModule 2
+  m_Script: {fileID: 11500000, guid: d527c834eb95da143bc6a084f6382462, type: 3}
+  m_Name: Hvid Diode
   m_EditorClassIdentifier: 
-  MQTTResistance: 470
-  Resistance: 1000
+  MQTTResistance: 300
   Picture: {fileID: 0}
-  ModuleColor: {r: 0.5828285, g: 0, b: 1, a: 1}
+  ModuleColor: {r: 1, g: 1, b: 1, a: 1}
   Type: 0
-  Name: 2
+  Name: 1
+  Resistance: 5

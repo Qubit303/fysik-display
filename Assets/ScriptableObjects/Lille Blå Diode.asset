@@ -9,12 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a98b7509c1b3bc24181f0cf84a3ec805, type: 3}
-  m_Name: WireModule
+  m_Script: {fileID: 11500000, guid: d527c834eb95da143bc6a084f6382462, type: 3}
+  m_Name: "Lille Bl\xE5 Diode"
   m_EditorClassIdentifier: 
-  MQTTResistance: 9000
+  MQTTResistance: 4700
   Picture: {fileID: 0}
-  ModuleColor: {r: 0.3056603, g: 0.3056603, b: 0.3056603, a: 1}
+  ModuleColor: {r: 0.4451336, g: 0.16793872, b: 0.86415094, a: 1}
   Type: 0
-  Name: 4
-  Resistance: 0
+  Name: 1
+  Resistance: 5

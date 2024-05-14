@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d527c834eb95da143bc6a084f6382462, type: 3}
-  m_Name: DiodeModule
+  m_Name: Gul Diode
   m_EditorClassIdentifier: 
-  MQTTResistance: 7000
-  Resistance: 10
+  MQTTResistance: 145
   Picture: {fileID: 0}
-  ModuleColor: {r: 0, g: 0.21176471, b: 0.5686275, a: 1}
+  ModuleColor: {r: 0.9924528, g: 0.8446973, b: 0.088009916, a: 1}
   Type: 0
   Name: 1
+  Resistance: 5

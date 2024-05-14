@@ -9,13 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 425d6eaa90e8d8a4cb4902bf83dd481a, type: 3}
-  m_Name: BatteryModule
+  m_Script: {fileID: 11500000, guid: 077b0944dc25f7c4ba7e9b1145cfec3b, type: 3}
+  m_Name: 10 Resistans
   m_EditorClassIdentifier: 
-  MQTTResistance: 1990
+  MQTTResistance: 2100
   Picture: {fileID: 0}
-  ModuleColor: {r: 0.015468482, g: 0.6679245, b: 0, a: 1}
+  ModuleColor: {r: 0.2679032, g: 0.5476323, b: 0.7433963, a: 1}
   Type: 0
-  Name: 0
-  Resistance: 5
-  BatteryVoltage: 9
+  Name: 2
+  Resistance: 10
