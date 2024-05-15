@@ -68,7 +68,11 @@ public class BaseModule : ScriptableObject, IModule<ModuleBox>
         }
         catch
         {
-            RemoveWires();
+            if (_box.Number == 4 || _box.Number == 8)
+                ActivateWire(Directions.Right);
+            else
+                RemoveWires();
+
             Debug.LogError("Module update failed! End of circuit reached!");
         }
     }
